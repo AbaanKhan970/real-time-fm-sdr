@@ -1,9 +1,39 @@
-## Real-time FM Receiver: SDR for Mono/Stereo Audio and RDS
+# 📻 Real-Time FM Receiver: SDR for Mono/Stereo Audio and RDS
 
-The project's main objective is to navigate a complex specification and develop an understanding of the challenges that must be addressed for the real-time implementation of a computing system operating in a form factor-constrained environment.
+This project implements a real-time software-defined radio (SDR) system capable of demodulating FM mono audio, stereo audio, and Radio Data System (RDS) signals using low-cost RF hardware and a Raspberry Pi 4.
 
-A detailed project description is available in the project [document](doc/3dy4-project-2025.pdf). The unique constraints for each group, including different modes of operation (i.e., custom sample rates), are available [here](doc/3dy4-constraints-group-39.pdf).
+The system processes 2.4 MS/s I/Q input streams and supports multiple modes with custom sample rates. Signal processing is implemented in Python for modeling and C++ for real-time execution, leveraging efficient filtering, resampling, multithreading, and Unix-style piping (`stdin/stdout`).
 
-For the workflow used in the last lab, check the [flow](doc/cmake-build-flow.md) overview. To build the executables in debug mode, refer to the [debug](doc/cmake-build-debug.md) overview. To debug your program with command-line arguments or real-time data, check this additional [info](doc/gdb-command-line.md).
+---
 
-All project source code must be submitted before 7 p.m. on Thursday, March 27. The project cross-examinations and oral presentations will take place during the week of March 31, and the detailed final project report is due before 7 p.m. on Friday, April 4.
+## 🚀 Features
+
+- **Real-Time FM Demodulation** – Mono, stereo, and RDS audio/data decoding.
+- **DSP Optimization** – Combined upsampling, filtering, and downsampling into a single resampler.
+- **Stereo Carrier Recovery** – Implemented digital PLL for 38 kHz subcarrier regeneration.
+- **RDS Decoding** – Extracted PI/PTY/PS fields using Manchester decoding and bit-wise parsing.
+- **Multithreaded Architecture** – Separate threads for RF frontend and audio output with safe queues.
+- **Unix Piping** – Designed as a streaming pipeline using `stdin`/`stdout` for block-wise processing.
+
+---
+
+## 🧠 Technologies Used
+
+- **Languages**: C++, Python
+- **Libraries**: NumPy, SciPy, Matplotlib
+- **Hardware**: RTL-SDR USB dongle, Raspberry Pi 4
+- **Concurrency, Multithreading**: `std::thread`, mutexes, condition variables
+- **Signal Processing**: FIR filters, PLL, resamplers, convolution, Manchester decoding
+
+---
+
+### 🧪 Python Modeling
+Used the Python scripts (`fmMonoBlock.py`, `fmStereoBlock.py`, `fmRDS.py`) to prototype and visualize signal flow so that correctness can be verified before real-time implementation.
+
+### Real-time implementation in C++
+The real-time implementation of the project was done on a Rasberry-Pi 4 . The implementation switched between modes of mono audio and stereo audio using a Unix-pipelined style architecture.
+
+```bash
+python3 fmMonoBlock.py
+python3 fmStereoBlock.py
+python3 fmRDS.py
