@@ -27,7 +27,7 @@ The system processes 2.4 MS/s I/Q input streams and supports multiple modes with
 
 ---
 
-### 🧪 Python Modeling
+### Python Modeling
 Used the Python scripts (`fmMonoBlock.py`, `fmStereoBlock.py`, `fmRDS.py`) to prototype and visualize signal flow so that correctness can be verified before real-time implementation.
 
 ### Real-time implementation in C++
